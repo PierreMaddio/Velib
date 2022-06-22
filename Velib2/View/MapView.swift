@@ -17,7 +17,21 @@ struct MapView: View {
             Map(coordinateRegion: $viewModel.locationManager.region, showsUserLocation: true, annotationItems: viewModel.locationManager.locations) { location in
                 MapAnnotation(coordinate: location.coordinate) {
                     NavigationLink {
-                        Text(location.name)
+                        VStack(spacing: 20) {
+                            Text(location.name)
+                                .font(.title)
+                            HStack(spacing: 2) {
+                                Image(systemName: "bicycle")
+                                Text("Nombre de vélos électriques disponibles")
+                                Text(String(location.ebike))
+                            }
+                            HStack(spacing: 2) {
+                                Image(systemName: "bicycle")
+                                Text("Nombre de vélos mécaniques disponibles")
+                                Text(String(location.mechanical))
+                            }
+                            Spacer()
+                        }
                     } label: {
                         Image(systemName: "bicycle.circle")
                     }

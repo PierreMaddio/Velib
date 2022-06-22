@@ -14,6 +14,7 @@ struct Location: Identifiable {
     let id = UUID()
     let name: String
     let coordinate: CLLocationCoordinate2D
+    let ebike, mechanical: Int
 }
 
 class MapViewModel: ObservableObject {
@@ -28,7 +29,7 @@ class MapViewModel: ObservableObject {
             self.service.fetchData(long: "\(lastLocation?.coordinate.longitude ?? 0.0)", lat: "\(lastLocation?.coordinate.latitude ?? 0.0)") { velib in
                 var newLocation: [Location] = []
                 velib?.records?.forEach({ record in
-                    let location = Location(name: record.fields?.name ?? "", coordinate: .init(latitude: record.geometry?.coordinates?.last ?? 0.0, longitude: record.geometry?.coordinates?.first ?? 0.0))
+                    let location = Location(name: record.fields?.name ?? "", coordinate: .init(latitude: record.geometry?.coordinates?.last ?? 0.0, longitude: record.geometry?.coordinates?.first ?? 0.0), ebike: record.fields?.ebike ?? 0, mechanical: record.fields?.mechanical ?? 0)
                     newLocation.append(location)
                 })
                 DispatchQueue.main.async {
