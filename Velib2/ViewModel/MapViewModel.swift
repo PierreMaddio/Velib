@@ -21,7 +21,8 @@ class MapViewModel: ObservableObject {
     @Published var locationManager = LocationManager()
     let service: VelibService = VelibService()
     
-    
+    // latitude: premier element du tableau coordinate[] .first
+    // longitude: dernier element du tableau coordinate[] .last
     init() {
         locationManager.completion = { lastLocation in
             self.service.fetchData(long: "\(lastLocation?.coordinate.longitude ?? 0.0)", lat: "\(lastLocation?.coordinate.latitude ?? 0.0)") { velib in

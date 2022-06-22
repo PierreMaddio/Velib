@@ -14,6 +14,10 @@ enum MapDetails {
     static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.15, longitudeDelta: 0.15)
 }
 
+// CLLocation :Les informations sur la latitude, la longitude et la trajectoire communiquées par le système
+// demande de l'autorisation à l'utilisateur d'utiliser sa localisation: locationManager.authorizationStatus
+// https://developer.apple.com/documentation/corelocation
+
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var lastLocation: CLLocation?
     @Published var locations: [Location] = []
@@ -23,7 +27,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var region = MKCoordinateRegion(center: MapDetails.startingLocation, span: MapDetails.defaultSpan)
     private var locationManager: CLLocationManager?
 
-    // make sure is on
     func checkIfLocationServiceIsEnabled() {
         if CLLocationManager.locationServicesEnabled() {
             locationManager = CLLocationManager()
@@ -34,6 +37,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
 
+    // switch locationManager.authorizationStatus{} cmd b : msg: switch must be exhaustive, fix
     private func checkLocationAuthorization() {
         guard let locationManager = locationManager else { return }
 
@@ -57,6 +61,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     // localisation actuelle gps
+    // Tells the delegate that new location data is available
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), span: MapDetails.defaultSpan)

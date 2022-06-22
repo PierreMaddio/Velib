@@ -26,9 +26,7 @@ open class ApiService {
     enum Path{
         
         enum BaseUrl: String {
-            //https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-disponibilite-en-temps-reel&location=22,48.87819,2.18172
             case path = "https://opendata.paris.fr/api/records/1.0/search/?"
-            
         }
         
         enum params: String {
@@ -51,6 +49,7 @@ extension ApiService {
             request.httpMethod = "POST"
         }
         
+        // clé API dans le header
         request.setValue(Constants.contentTypeJson, forHTTPHeaderField: Constants.headerContentType)
         
         return request
